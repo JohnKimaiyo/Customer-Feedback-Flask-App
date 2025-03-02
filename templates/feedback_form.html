@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --text-color: #333;
+            --error-color: #e63946;
+            --border-color: #ddd;
+            --background-color: #f8f9fa;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-weight: 600;
+            margin: 12px 0 8px;
+            font-size: 0.95rem;
+        }
+        
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .error {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+            font-weight: 500;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+        
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Product Feedback</h2>
+        <form id="feedbackForm">
+            <label for="product">Product Name:</label>
+            <select id="product" name="product" required>
+                <option value="">-- Select a Product --</option>
+                <option value="18.9 Litres">18.9 Litres</option>
+                <option value="10 Litres">10 Litres</option>
+                <option value="5 Litres">5 Litres</option>
+                <option value="1.5 Litres">1.5 Litres</option>
+                <option value="1 Litre">1 Litre</option>
+                <option value="500 ml">500 ml</option>
+                <option value="300 ml">300 ml</option>
+            </select>
+            <span class="error" id="productError"></span>
+
+            <label for="review">Your Review:</label>
+            <textarea id="review" name="review" rows="4" required></textarea>
+            <span class="error" id="reviewError"></span>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent default form submission
+
+            let product = document.getElementById("product").value.trim();
+            let review = document.getElementById("review").value.trim();
+            let productError = document.getElementById("productError");
+            let reviewError = document.getElementById("reviewError");
+
+            // Reset errors
+            productError.textContent = "";
+            reviewError.textContent = "";
+
+            let hasError = false;
+
+            if (!product) {
+                productError.textContent = "Please select a product.";
+                hasError = true;
+            }
+            if (!review) {
+                reviewError.textContent = "Review cannot be empty.";
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            let feedbackData = { product, review };
+
+            // Send data to Flask server
+            fetch("/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(feedbackData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert("Error: " + data.error);
+                } else {
+                    alert("Feedback submitted successfully!");
+                    window.location.reload();  // Refresh form after submission
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
