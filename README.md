@@ -8,6 +8,8 @@ Backend : Flask Server
 
 Create Sentiment Anlyszer App  Youtube Demo : https://www.youtube.com/watch?v=ep53jexOAt8
 
+Jupiter Notebook : https://github.com/JohnKimaiyo/Customer-Feedback-Flask-App/blob/main/trained%20data/Customer%20Feedback%20sentiment%20analysis.ipynb
+
 
 Customer Feedback sentiment analysis
 
