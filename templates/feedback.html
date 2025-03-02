@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer Feedback Form</h1>
+    <p>Thank you for choosing us! We value your feedback. Please take a moment to fill out this form to help us improve our products and services.</p>
+
+    <form action="/submit" method="post" onsubmit="return validateForm()">
+        <!-- First Name -->
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+        <div id="firstNameError" class="error"></div>
+
+        <!-- Last Name -->
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+        <div id="lastNameError" class="error"></div>
+
+        <!-- Select County in Kenya -->
+        <label for="county">Select Town in Kenya:</label>
+        <select id="county" name="county" required>
+            <option value="">-- Select County --</option>
+            <option value="Mombasa">Mombasa</option>
+            <option value="Nairobi">Nairobi</option>
+            <option value="Kisumu">Kisumu</option>
+            <option value="Nakuru">Nakuru</option>
+            <option value="Eldoret">Eldoret</option>
+            <!-- Add more counties as needed -->
+        </select>
+        <div id="countyError" class="error"></div>
+
+        <!-- Email Address -->
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+        <div id="emailError" class="error"></div>
+
+        <!-- Select Product Purchased -->
+        <label for="product">Select Product Purchased:</label>
+        <select id="product" name="product" required>
+            <option value="">-- Select Product --</option>
+            <option value="18.9 Litres">18.9 Litres</option>
+            <option value="10 Litres">10 Litres</option>
+            <option value="5 Litres">5 Litres</option>
+            <option value="1.5 Litres">1.5 Litres</option>
+            <option value="1 Litre">1 Litre</option>
+            <option value="500 ml">500 ml</option>
+            <option value="300 ml">300 ml</option>
+        </select>
+        <div id="productError" class="error"></div>
+
+        <!-- Rating of Service -->
+        <label for="rating">Rating of Service (1-10):</label>
+        <input type="number" id="rating" name="rating" min="1" max="10" required>
+        <div id="ratingError" class="error"></div>
+
+        <!-- Comments -->
+        <label for="comments">Comments:</label>
+        <textarea id="comments" name="comments" rows="5" required></textarea>
+        <div id="commentsError" class="error"></div>
+
+        <!-- Select Date -->
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" name="date" required>
+        <div id="dateError" class="error"></div>
+
+        <!-- Phone Number -->
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+        <div id="phoneError" class="error"></div>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll('.error').forEach(error => error.textContent = '');
+
+            // Validate First Name
+            const firstName = document.getElementById('firstName').value.trim();
+            if (firstName === '') {
+                document.getElementById('firstNameError').textContent = 'First Name is required.';
+                isValid = false;
+            }
+
+            // Validate Last Name
+            const lastName = document.getElementById('lastName').value.trim();
+            if (lastName === '') {
+                document.getElementById('lastNameError').textContent = 'Last Name is required.';
+                isValid = false;
+            }
+
+            // Validate County
+            const county = document.getElementById('county').value;
+            if (county === '') {
+                document.getElementById('countyError').textContent = 'County is required.';
+                isValid = false;
+            }
+
+            // Validate Email
+            const email = document.getElementById('email').value.trim();
+            if (email === '') {
+                document.getElementById('emailError').textContent = 'Email is required.';
+                isValid = false;
+            } else if (!/\S+@\S+\.\S+/.test(email)) {
+                document.getElementById('emailError').textContent = 'Email is not valid.';
+                isValid = false;
+            }
+
+            // Validate Product
+            const product = document.getElementById('product').value;
+            if (product === '') {
+                document.getElementById('productError').textContent = 'Product is required.';
+                isValid = false;
+            }
+
+            // Validate Rating
+            const rating = document.getElementById('rating').value;
+            if (rating === '' || rating < 1 || rating > 10) {
+                document.getElementById('ratingError').textContent = 'Rating must be between 1 and 10.';
+                isValid = false;
+            }
+
+            // Validate Comments
+            const comments = document.getElementById('comments').value.trim();
+            if (comments === '') {
+                document.getElementById('commentsError').textContent = 'Comments are required.';
+                isValid = false;
+            }
+
+            // Validate Date
+            const date = document.getElementById('date').value;
+            if (date === '') {
+                document.getElementById('dateError').textContent = 'Date is required.';
+                isValid = false;
+            }
+
+            // Validate Phone Number
+            const phone = document.getElementById('phone').value.trim();
+            if (phone === '') {
+                document.getElementById('phoneError').textContent = 'Phone Number is required.';
+                isValid = false;
+            } else if (!/^\d{10}$/.test(phone)) {
+                document.getElementById('phoneError').textContent = 'Phone Number must be 10 digits.';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

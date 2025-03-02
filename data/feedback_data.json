@@ -1,0 +1,26 @@
+[
+    {
+        "firstName": "janet",
+        "lastName": "chebet",
+        "county": "Kisumu",
+        "email": "chebet@gmail.com",
+        "product": "1 Litre",
+        "rating": "6",
+        "comments": "Increase the number of label details",
+        "date": "2024-04-05",
+        "phone": "0711552289",
+        "timestamp": "2025-03-02 10:54:13"
+    },
+    {
+        "firstName": "JOHN",
+        "lastName": "KIMAIYO",
+        "county": "Nairobi",
+        "email": "kimaiyojohn6@gmail.com",
+        "product": "18.9 Litres",
+        "rating": "8",
+        "comments": "The waiting time is too slow",
+        "date": "2023-03-01",
+        "phone": "0728664013",
+        "timestamp": "2025-03-02 10:54:59"
+    }
+]
