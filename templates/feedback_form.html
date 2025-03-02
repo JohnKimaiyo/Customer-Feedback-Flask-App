@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Form</title>
     <style>
+        /* Your improved CSS styles here */
         :root {
             --primary-color: #4361ee;
             --primary-hover: #3a56d4;
@@ -14,14 +15,15 @@
             --background-color: #f8f9fa;
             --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
+            --success-color: #28a745;
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -33,7 +35,7 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         .container {
             width: 100%;
             max-width: 500px;
@@ -41,26 +43,33 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: var(--box-shadow);
+            transition: var(--transition);
         }
-        
+
+        .container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
         h2 {
             text-align: center;
             margin-bottom: 25px;
             color: var(--primary-color);
             font-size: 1.8rem;
+            font-weight: 700;
         }
-        
+
         form {
             display: flex;
             flex-direction: column;
         }
-        
+
         label {
             font-weight: 600;
             margin: 12px 0 8px;
             font-size: 0.95rem;
+            color: var(--text-color);
         }
-        
+
         select, textarea {
             width: 100%;
             padding: 12px;
@@ -68,19 +77,20 @@
             border-radius: 6px;
             font-size: 1rem;
             transition: var(--transition);
+            background-color: #fff;
         }
-        
+
         select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
-        
+
         textarea {
             resize: vertical;
             min-height: 120px;
         }
-        
+
         .error {
             color: var(--error-color);
             font-size: 0.85rem;
@@ -88,7 +98,7 @@
             display: block;
             font-weight: 500;
         }
-        
+
         button {
             background-color: var(--primary-color);
             color: white;
@@ -101,21 +111,37 @@
             margin-top: 20px;
             transition: var(--transition);
         }
-        
+
         button:hover {
             background-color: var(--primary-hover);
             transform: translateY(-2px);
         }
-        
+
         button:active {
             transform: translateY(0);
         }
-        
+
+        .success-message {
+            color: var(--success-color);
+            font-size: 1rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .redirect-button {
+            background-color: #6c757d;
+            margin-top: 10px;
+        }
+
+        .redirect-button:hover {
+            background-color: #5a6268;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
             }
-            
+
             h2 {
                 font-size: 1.5rem;
             }
@@ -144,6 +170,7 @@
             <span class="error" id="reviewError"></span>
 
             <button type="submit">Submit Feedback</button>
+            <button type="button" class="redirect-button" onclick="window.location.href='/sentiment'">Check Sentiment Analysis</button>
         </form>
     </div>
 

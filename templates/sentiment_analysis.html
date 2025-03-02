@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Sentiment Analysis</title>
+    <style>
+        /* Your improved CSS styles here */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --background-color: #f8f9fa;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --warning-color: #f39c12;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            transition: var(--transition);
+        }
+
+        .container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        h3 {
+            margin: 25px 0 15px;
+            color: var(--secondary-color);
+            font-size: 22px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: var(--transition);
+            background-color: #fff;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            width: 100%;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .result-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 5px solid var(--primary-color);
+            margin-top: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .result-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            padding: 10px;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .sentiment-positive {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .sentiment-negative {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        .sentiment-neutral {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+
+        .redirect-button {
+            background-color: #6c757d;
+            margin-top: 10px;
+        }
+
+        .redirect-button:hover {
+            background-color: #5a6268;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            h3 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Product Sentiment Analysis</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label for="product">Select a Product:</label>
+                <select name="product" id="product" required>
+                    <option value="">-- Select a Product --</option>
+                    <option value="18.9 Litres">18.9 Litres</option>
+                    <option value="10 Litres">10 Litres</option>
+                    <option value="5 Litres">5 Litres</option>
+                    <option value="1.5 Litres">1.5 Litres</option>
+                    <option value="1 Litre">1 Litre</option>
+                    <option value="500 ml">500 ml</option>
+                    <option value="300 ml">300 ml</option>
+                </select>
+                <button type="submit">Check Sentiment</button>
+                <button type="button" class="redirect-button" onclick="window.location.href='/'">Go Back to Feedback Form</button>
+            </div>
+        </form>
+        
+        {% if sentiment_data %}
+            <h3>Sentiment Result</h3>
+            {% if sentiment_data.error %}
+                <div class="error-message">
+                    {{ sentiment_data.error }}
+                </div>
+            {% else %}
+                <div class="result-card">
+                    <div class="result-item">
+                        <strong>Product:</strong> {{ sentiment_data.product }}
+                    </div>
+                    <div class="result-item">
+                        <strong>Sentiment:</strong> 
+                        {% if sentiment_data.sentiment == "Positive" %}
+                            <span class="sentiment-positive">{{ sentiment_data.sentiment }}</span>
+                        {% elif sentiment_data.sentiment == "Negative" %}
+                            <span class="sentiment-negative">{{ sentiment_data.sentiment }}</span>
+                        {% else %}
+                            <span class="sentiment-neutral">{{ sentiment_data.sentiment }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="result-item">
+                        <strong>Sentiment Counts:</strong> {{ sentiment_data.sentiment_counts }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
