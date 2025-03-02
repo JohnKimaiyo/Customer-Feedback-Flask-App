@@ -22,5 +22,17 @@
         "date": "2023-03-01",
         "phone": "0728664013",
         "timestamp": "2025-03-02 10:54:59"
+    },
+    {
+        "firstName": "Kevin",
+        "lastName": "Kiptum",
+        "county": "Eldoret",
+        "email": "kevinkiptum@gmail.com",
+        "product": "1.5 Litres",
+        "rating": "8",
+        "comments": "Nice packaging",
+        "date": "2024-08-01",
+        "phone": "0789568914",
+        "timestamp": "2025-03-02 11:08:14"
     }
 ]
